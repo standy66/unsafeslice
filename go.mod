@@ -1,4 +1,4 @@
-module github.com/alecthomas/unsafeslice
+module github.com/standy66/unsafeslice
 
 go 1.12
 
