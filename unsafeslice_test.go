@@ -3,6 +3,7 @@ package unsafeslice
 import (
 	"bytes"
 	"encoding/binary"
+	"github.com/x448/float16"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -78,6 +79,33 @@ func TestUnsafeSliceInt8(t *testing.T) {
 	v := Int8SliceFromByteSlice(w.Bytes())
 	require.Equal(t, d, v)
 	require.Equal(t, w.Bytes(), ByteSliceFromInt8Slice(d))
+}
+
+func TestUnsafeSliceFloat64(t *testing.T) {
+	w := &bytes.Buffer{}
+	d := []float64{0xd, 0xe, 0xa, 0xd, 0xb, 0xe, 0xe, 0xf, 0xb, 0x3, 0x3, 0x4}
+	binary.Write(w, binary.LittleEndian, d)
+	v := Float64SliceFromByteSlice(w.Bytes())
+	require.Equal(t, d, v)
+	require.Equal(t, w.Bytes(), ByteSliceFromFloat64Slice(d))
+}
+
+func TestUnsafeSliceFloat32(t *testing.T) {
+	w := &bytes.Buffer{}
+	d := []float32{0xd, 0xe, 0xa, 0xd, 0xb, 0xe, 0xe, 0xf, 0xb, 0x3, 0x3, 0x4}
+	binary.Write(w, binary.LittleEndian, d)
+	v := Float32SliceFromByteSlice(w.Bytes())
+	require.Equal(t, d, v)
+	require.Equal(t, w.Bytes(), ByteSliceFromFloat32Slice(d))
+}
+
+func TestUnsafeSliceFloat16(t *testing.T) {
+	w := &bytes.Buffer{}
+	d := []float16.Float16{0xd, 0xe, 0xa, 0xd, 0xb, 0xe, 0xe, 0xf, 0xb, 0x3, 0x3, 0x4}
+	binary.Write(w, binary.LittleEndian, d)
+	v := Float16SliceFromByteSlice(w.Bytes())
+	require.Equal(t, d, v)
+	require.Equal(t, w.Bytes(), ByteSliceFromFloat16Slice(d))
 }
 
 type Struct struct {

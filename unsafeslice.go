@@ -2,16 +2,25 @@
 package unsafeslice
 
 import (
+	"github.com/x448/float16"
 	"reflect"
 	"unsafe"
 )
 
 // Useful constants.
 const (
-	Uint64Size = 8
-	Uint32Size = 4
-	Uint16Size = 2
-	Uint8Size  = 1
+	Uint64Size	= int(unsafe.Sizeof(uint64(0)))
+	Uint32Size	= int(unsafe.Sizeof(uint32(0)))
+	Uint16Size	= int(unsafe.Sizeof(uint16(0)))
+	Uint8Size	= int(unsafe.Sizeof(uint8(0)))
+	Int64Size	= int(unsafe.Sizeof(int64(0)))
+	Int32Size	= int(unsafe.Sizeof(int32(0)))
+	Int16Size	= int(unsafe.Sizeof(int16(0)))
+	Int8Size	= int(unsafe.Sizeof(int8(0)))
+
+	Float64Size	= int(unsafe.Sizeof(float64(0)))
+	Float32Size	= int(unsafe.Sizeof(float32(0)))
+	Float16Size	= int(unsafe.Sizeof(float16.Float16(0)))
 )
 
 func newRawSliceHeader(sh *reflect.SliceHeader, b []byte, stride int) *reflect.SliceHeader {
@@ -43,11 +52,11 @@ func ByteSliceFromUint64Slice(b []uint64) []byte {
 }
 
 func Int64SliceFromByteSlice(b []byte) []int64 {
-	return *(*[]int64)(newSliceHeaderFromBytes(b, Uint64Size))
+	return *(*[]int64)(newSliceHeaderFromBytes(b, Int64Size))
 }
 
 func ByteSliceFromInt64Slice(b []int64) []byte {
-	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Uint64Size))
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Int64Size))
 }
 
 func Uint32SliceFromByteSlice(b []byte) []uint32 {
@@ -59,11 +68,11 @@ func ByteSliceFromUint32Slice(b []uint32) []byte {
 }
 
 func Int32SliceFromByteSlice(b []byte) []int32 {
-	return *(*[]int32)(newSliceHeaderFromBytes(b, Uint32Size))
+	return *(*[]int32)(newSliceHeaderFromBytes(b, Int32Size))
 }
 
 func ByteSliceFromInt32Slice(b []int32) []byte {
-	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Uint32Size))
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Int32Size))
 }
 
 func Uint16SliceFromByteSlice(b []byte) []uint16 {
@@ -75,11 +84,11 @@ func ByteSliceFromUint16Slice(b []uint16) []byte {
 }
 
 func Int16SliceFromByteSlice(b []byte) []int16 {
-	return *(*[]int16)(newSliceHeaderFromBytes(b, Uint16Size))
+	return *(*[]int16)(newSliceHeaderFromBytes(b, Int16Size))
 }
 
 func ByteSliceFromInt16Slice(b []int16) []byte {
-	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Uint16Size))
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Int16Size))
 }
 
 func Uint8SliceFromByteSlice(b []byte) []uint8 {
@@ -91,11 +100,35 @@ func ByteSliceFromUint8Slice(b []uint8) []byte {
 }
 
 func Int8SliceFromByteSlice(b []byte) []int8 {
-	return *(*[]int8)(newSliceHeaderFromBytes(b, Uint8Size))
+	return *(*[]int8)(newSliceHeaderFromBytes(b, Int8Size))
 }
 
 func ByteSliceFromInt8Slice(b []int8) []byte {
-	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Uint8Size))
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Int8Size))
+}
+
+func Float64SliceFromByteSlice(b []byte) []float64 {
+	return *(*[]float64)(newSliceHeaderFromBytes(b, Float64Size))
+}
+
+func ByteSliceFromFloat64Slice(b []float64) []byte {
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Float64Size))
+}
+
+func Float32SliceFromByteSlice(b []byte) []float32 {
+	return *(*[]float32)(newSliceHeaderFromBytes(b, Float32Size))
+}
+
+func ByteSliceFromFloat32Slice(b []float32) []byte {
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Float32Size))
+}
+
+func Float16SliceFromByteSlice(b []byte) []float16.Float16 {
+	return *(*[]float16.Float16)(newSliceHeaderFromBytes(b, Float16Size))
+}
+
+func ByteSliceFromFloat16Slice(b []float16.Float16) []byte {
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Float16Size))
 }
 
 func ByteSliceFromString(s string) []byte {
