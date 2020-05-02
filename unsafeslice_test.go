@@ -108,6 +108,15 @@ func TestUnsafeSliceFloat16(t *testing.T) {
 	require.Equal(t, w.Bytes(), ByteSliceFromFloat16Slice(d))
 }
 
+func TestUnsafeSliceBool(t *testing.T) {
+	w := &bytes.Buffer{}
+	d := []bool{true, false, false, true, true, true, true, false, false, true, false, true, false, false, false, false}
+	binary.Write(w, binary.LittleEndian, d)
+	v := BoolSliceFromByteSlice(w.Bytes())
+	require.Equal(t, d, v)
+	require.Equal(t, w.Bytes(), ByteSliceFromBoolSlice(d))
+}
+
 type Struct struct {
 	A uint8
 	B uint32

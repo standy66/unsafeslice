@@ -21,6 +21,8 @@ const (
 	Float64Size	= int(unsafe.Sizeof(float64(0)))
 	Float32Size	= int(unsafe.Sizeof(float32(0)))
 	Float16Size	= int(unsafe.Sizeof(float16.Float16(0)))
+
+	BoolSize	= int(unsafe.Sizeof(false))
 )
 
 func newRawSliceHeader(sh *reflect.SliceHeader, b []byte, stride int) *reflect.SliceHeader {
@@ -129,6 +131,14 @@ func Float16SliceFromByteSlice(b []byte) []float16.Float16 {
 
 func ByteSliceFromFloat16Slice(b []float16.Float16) []byte {
 	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*Float16Size))
+}
+
+func BoolSliceFromByteSlice(b []byte) []bool {
+	return *(*[]bool)(newSliceHeaderFromBytes(b, BoolSize))
+}
+
+func ByteSliceFromBoolSlice(b []bool) []byte {
+	return *(*[]byte)(newSliceHeader(unsafe.Pointer(&b[0]), len(b)*BoolSize))
 }
 
 func ByteSliceFromString(s string) []byte {
